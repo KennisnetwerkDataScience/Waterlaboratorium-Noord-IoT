@@ -19,3 +19,4 @@ Opmerking: door stationsverplaatsingen en veranderingen in waarneemmethodieken z
 
 Het KNMI voert op werkdagen een controle uit op deze gegevens afkomstig uit het meetnet van het KNMI. De gegevens worden op kwaliteit gecontroleerd en eventueel aangepast. Zoveel als mogelijk worden ook ontbrekende waarden aangevuld. Hierdoor kunnen verschillen ontstaan met de ongevalideerde actuele 10-minuut gegevens uit het meetnet.
 
+Neerslaggegevens van Delfzijl toegevoegd
