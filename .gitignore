@@ -2,3 +2,4 @@
 *.exe
 *.xlsx
 *.xls
+.ipynb_*
