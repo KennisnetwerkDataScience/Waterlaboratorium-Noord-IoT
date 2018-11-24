@@ -3,13 +3,6 @@
 Created on Sat Nov 24 16:56:30 2018
 
 @author: Pieter
-"""
-
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Nov 22 11:14:28 2018
-
-@author: Pieter
 
 Prepares the data in the Kennisnetwerk_data_WWTPpopulaties_WLN.xlsx file sheet Pivot_ZAWZI_Ranked
 
