@@ -19,3 +19,24 @@ Opmerking: door stationsverplaatsingen en veranderingen in waarneemmethodieken z
 
 Het KNMI voert op werkdagen een controle uit op deze gegevens afkomstig uit het meetnet van het KNMI. De gegevens worden op kwaliteit gecontroleerd en eventueel aangepast. Zoveel als mogelijk worden ook ontbrekende waarden aangevuld. Hierdoor kunnen verschillen ontstaan met de ongevalideerde actuele 10-minuut gegevens uit het meetnet.
 
+Neerslaggegevens van Delfzijl toegevoegd
+
+Toelichting Influent lab analyses / effl. lab analyses
+
+Datum	
+zwst (mg/l)	zwevende stof / onopgeloste bestanddelen
+egv (mS/m)	geleidbaarheid
+cl (mg/l)	chloride
+so4 (ug/l)	sulfaat
+nh4 (mg N/l)	ammonium
+nkj (mg N/l)	Kjeldahl
+no2 (mg N/l)	nitriet
+no3 (mg N/l)	nitraat
+n (mg N/l)	Kjeldahl + nitriet + nitraat
+po4o (mg P/l)	opgelost fosfaat
+po4 (mg P/l)	totaal fosfaat
+czv (mg O2/l)	chemisch zuurstofverbruik
+bzv-5 (mg/l)	biologisch zuurstofverbruik
+na (mg/l)	natrium
+k (mg/l)	kalium
+ph (pH)	zuurgraad
