@@ -35,7 +35,7 @@ proces_data['online data'].rename(columns={'Timestamp': 'datum'}, inplace=True)
 #%%
 # =============================================================================
 # BASIC STATISTICS
-all_stats1 = bdc.summarize_statistics(proces_data)
+
 #%%
 # =============================================================================
 # DATA PREP
@@ -44,7 +44,8 @@ def prepare_data(dictionairy):
     for key in dictionairy.keys():
         # lower case column headers
         dictionairy[key].columns = map(str.lower, dictionairy[key].columns)
-        # strip column names
+        # strip column names.
+        
         dictionairy[key].columns = dictionairy[key].columns.str.strip()
         # remove non-string characters from column names
         
@@ -54,9 +55,32 @@ def prepare_data(dictionairy):
             
 prepare_data(proces_data)
 #%%
+def interpolate_svi(df):
+    mindate = df['datum'].min()
+    maxdate = df['datum'].max()
+    
+    x = pd.to_datetime(df['datum'])
+    
+    xnew = pd.to_datetime(pd.date_range(mindate,maxdate, freq='D')).to_series()
+    xnew.reset_index(drop=True, inplace=True)
+    xnew.name = 'datum'
+    dfnew = pd.DataFrame(xnew)
+    
+    for column in df.columns.tolist():
+        if not column == 'datum':
+            y = df[column]
+            ynew = np.interp(pd.to_numeric(xnew), pd.to_numeric(x), y)
+            ynew = pd.Series(ynew)
+            ynew.name = column
+            ynew = pd.DataFrame(ynew)
+            dfnew = pd.concat([dfnew, ynew], axis = 1)
+    
+    return dfnew
+#%%
 # =============================================================================
 # COMBINE ALL DATA
 def merge_dataframes(dictionairy):
+    all_stats1 = bdc.summarize_statistics(proces_data)
     # achterhaal min en max datums van alle data
     min_date = all_stats1[all_stats1['column']=='datum'].loc[:,'min'].min()
     max_date = all_stats1[all_stats1['column']=='datum'].loc[:,'max'].max()
@@ -70,6 +94,9 @@ def merge_dataframes(dictionairy):
             df_tmp['datum'] = pd.to_datetime(df_tmp['datum']).dt.date
             df_tmp = df_tmp.groupby(by=['datum']).mean()
             df_tmp['datum'] = df_tmp.index
+        elif key == 'SVI en DS AT':
+            df_tmp = interpolate_svi(dictionairy[key])       
+            df_tmp['datum'] = pd.to_datetime(df_tmp['datum']).dt.date
         else:
             df_tmp = dictionairy[key]
             df_tmp['datum'] = pd.to_datetime(df_tmp['datum']).dt.date
@@ -81,7 +108,7 @@ def merge_dataframes(dictionairy):
 merged_data = merge_dataframes(proces_data)
 merged_data['datum'] = pd.to_datetime(merged_data['datum'])
 
-all_stats2 = bdc.BasicStatistics(merged_data)
+all_stats = bdc.BasicStatistics(merged_data)
 #%%
 # data cleansing
 # optie 1: verwijder alle records waar svi 30 geen waarde heeft
@@ -111,7 +138,7 @@ dataset1.fillna(0, inplace=True)
 #%%
 # maak classifier column
 threshold = 60  # svi 30 grens: alles hierboven lijkt 'niet goed'
-days =10 # aantal dagen dat terug wordt gekeken om stijging van de svi 30 curve te bepalen
+days =20 # aantal dagen dat terug wordt gekeken om stijging van de svi 30 curve te bepalen
 # default waarde is 0
 dataset1['class'] = 0
 
@@ -121,7 +148,7 @@ for record in range(5, dataset1.shape[0]):
 #%%
 #plot
 x = dataset1['datum']
-y = dataset1['svi 30']
+y = dataset1['svi 30'] 
 z = dataset1['class']
 
 fig, ax1 = plt.subplots()
@@ -140,14 +167,20 @@ color = 'tab:green'
 ax2.set_ylabel('class', color=color) 
 ax2.plot(x, z, color=color)
 ax2.tick_params(axis='class', labelcolor=color)
+ax2.yticks(np.arange(0, 1, step=1))
 
 fig.tight_layout() 
+plt.savefig('output/svi_classifier.png')
 plt.show()
+
 #%%    
 #verwijder svi kolommen
 for nr in range(5, 35, 5):
     del dataset1[str('svi '+ str(nr))]
-        
+#%%
+# STATISTICS
+all_stats = bdc.BasicStatistics(dataset1)        
+print(all_stats)
 #%%
 # test train split
 from sklearn.model_selection import train_test_split
@@ -197,8 +230,8 @@ print(classifier.score(features,classes))
 #%%
 # =============================================================================
 # OUTPUT
-#all_stats2.to_html('output/statistics.html')
-#dataset1.to_csv('output/dataset1.csv')
+all_stats.to_html('output/statistics.html')
+dataset1.to_csv('output/dataset1.csv')
     
     
 # =============================================================================    
