@@ -9,6 +9,8 @@ pandas = "*"
 numpy = "*"
 matplotlib = "*"
 altair = "*"
+vega-datasets = "*"
+vega = "*"
 
 [dev-packages]
 
