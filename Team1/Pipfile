@@ -11,6 +11,7 @@ matplotlib = "*"
 altair = "*"
 vega-datasets = "*"
 vega = "*"
+xlwings = "*"
 
 [dev-packages]
 
