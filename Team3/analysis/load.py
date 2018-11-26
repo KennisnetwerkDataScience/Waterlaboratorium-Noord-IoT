@@ -88,10 +88,7 @@ def load_knmi():
         header=0,
         #index_col=1,
     )
-    print(df)
-    print(df.columns)
     df.columns = [c.strip() for c in df.columns]
-    print(df.columns)
     df.index = df.apply(
         lambda e : pd.datetime.combine(
             datetime.strptime(str(e['YYYYMMDD']), '%Y%m%d').date(),

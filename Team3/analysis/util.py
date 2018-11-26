@@ -31,3 +31,28 @@ def save_plot_population_svi(data, file_name, legend=None):
     data['population'].plot(ax=ax1, logy=True, legend=legend, style='.-', title=file_name)
     data['svi']['SVI 30'].plot(ax=ax2, legend=legend, color='black', linewidth=2, style='.-')
     fig.savefig(os.path.join('analysis_result', file_name), dpi=fig.dpi)
+
+
+def df_remove_index_duplicates(df, keep='last'):
+    return df[~df.index.duplicated(keep=keep)]
+
+
+def remove_index_duplicates(data, keep='last'):
+    return {k: df_remove_index_duplicates(data[k], keep=keep) for k in data}
+
+
+def reindex_interpolate(df, df_target):
+    l = df_target.index.tolist()
+    #print(l)
+    l.extend(df.index.tolist())
+    l = sorted(list(set(l)))
+    #print(l)
+    df = df.reindex(index = l)
+    #print(df)
+    df = df.interpolate()
+    df = df.reindex(index = df_target.index)
+    return df
+
+
+def correlations(data, target_table, target_column):
+    return {key: data[key].corrwith(data[target_table][target_column]) for key in data}
