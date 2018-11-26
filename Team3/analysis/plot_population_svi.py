@@ -7,6 +7,7 @@ from .load import *
 
 
 data = load(['population', 'svi'])
+#data['population'] = data['population'].fillna(0.00000001)
 data['population'] = data['population'].groupby(axis=1, level=[0,1,2,3]).sum()
 
 start = '2014-10-1'
