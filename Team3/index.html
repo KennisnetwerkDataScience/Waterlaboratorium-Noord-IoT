@@ -1,0 +1,36 @@
+<html>
+<head>
+<script type="text/javascript"
+  src="dygraph.js"></script>
+<link rel="stylesheet" src="dygraph.css" />
+</head>
+<body>
+<b>SVI en DS AT</b>
+<div id="graphdiv3"
+  style="width:1000px; height:270px;"></div>
+<script type="text/javascript">
+  g3 = new Dygraph(
+    document.getElementById("graphdiv3"),
+    "slib.csv",
+    {
+      rollPeriod: 7,
+      showRoller: true
+    }
+  );
+</script>
+<br>
+<b>Slibactiviteit</b>
+<div id="graphdiv4"
+  style="width:1000px; height:270px;"></div>
+<script type="text/javascript">
+  g3 = new Dygraph(
+    document.getElementById("graphdiv4"),
+    "slibactiviteit.csv",
+    {
+      rollPeriod: 7,
+      showRoller: true
+    }
+  );
+</script>
+</body>
+</html>
