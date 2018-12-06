@@ -40,3 +40,5 @@ bzv-5 (mg/l)	biologisch zuurstofverbruik
 na (mg/l)	natrium
 k (mg/l)	kalium
 ph (pH)	zuurgraad
+
+De procesdata is uitgebreid op het tabblad ‘online data’ is een kolom watertemperatuur (temp) toegevoegd.
