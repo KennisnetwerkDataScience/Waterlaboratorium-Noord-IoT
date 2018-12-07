@@ -3,12 +3,12 @@ import matplotlib.pyplot as plt
 import math
 from datetime import datetime
 
+
 def ilog(x):
     return 10 ** x
 
 
 def num(x):
-    print('`%s` %s' % (x, type(x)))
     if type(x) == str:
         if not x.strip():
             return float('NaN')
@@ -65,6 +65,7 @@ def load_svi():
         index_col=[0],
     )
     df.index = pd.to_datetime(df.index)
+    df = df[~df.index.duplicated(keep='last')]
     return df
 
 
@@ -79,11 +80,11 @@ def load_online():
     return df
 
 
-def load_knmi():
+def load_knmi(file='../Data/uurgeg_286_2011-2020.txt'):
     skiprows = list(range(30))
     skiprows.append(32)
     df = pd.read_csv(
-        '../Data/uurgeg_286_2011-2020.txt',
+        file,
         skiprows=skiprows,
         header=0,
         #index_col=1,
@@ -96,6 +97,18 @@ def load_knmi():
         ),
         axis=1
     )
+    return df
+
+
+def load_knmi_daily_mean():
+    df = load_knmi()
+    df = df.groupby(pd.Grouper(freq='D')).mean()
+    return df
+
+
+def load_knmi_daily_sum():
+    df = load_knmi()
+    df = df.groupby(pd.Grouper(freq='D')).sum()
     return df
 
 
